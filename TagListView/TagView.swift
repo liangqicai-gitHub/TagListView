@@ -121,36 +121,36 @@ open class TagView: UIButton {
     
     // MARK: remove button
     
-    let removeButton = CloseButton()
-    
-    @IBInspectable open var enableRemoveButton: Bool = false {
-        didSet {
-            removeButton.isHidden = !enableRemoveButton
-            updateRightInsets()
-        }
-    }
-    
-    @IBInspectable open var removeButtonIconSize: CGFloat = 12 {
-        didSet {
-            removeButton.iconSize = removeButtonIconSize
-            updateRightInsets()
-        }
-    }
-    
-    @IBInspectable open var removeIconLineWidth: CGFloat = 3 {
-        didSet {
-            removeButton.lineWidth = removeIconLineWidth
-        }
-    }
-    @IBInspectable open var removeIconLineColor: UIColor = UIColor.white.withAlphaComponent(0.54) {
-        didSet {
-            removeButton.lineColor = removeIconLineColor
-        }
-    }
+//    let removeButton = CloseButton()
+//
+//    @IBInspectable open var enableRemoveButton: Bool = false {
+//        didSet {
+//            removeButton.isHidden = !enableRemoveButton
+//            updateRightInsets()
+//        }
+//    }
+//
+//    @IBInspectable open var removeButtonIconSize: CGFloat = 12 {
+//        didSet {
+//            removeButton.iconSize = removeButtonIconSize
+//            updateRightInsets()
+//        }
+//    }
+//
+//    @IBInspectable open var removeIconLineWidth: CGFloat = 3 {
+//        didSet {
+//            removeButton.lineWidth = removeIconLineWidth
+//        }
+//    }
+//    @IBInspectable open var removeIconLineColor: UIColor = UIColor.white.withAlphaComponent(0.54) {
+//        didSet {
+//            removeButton.lineColor = removeIconLineColor
+//        }
+//    }
     
     /// Handles Tap (TouchUpInside)
     open var onTap: ((TagView) -> Void)?
-    open var onLongPress: ((TagView) -> Void)?
+//    open var onLongPress: ((TagView) -> Void)?
     
     // MARK: - init
     
@@ -160,8 +160,11 @@ open class TagView: UIButton {
         setupView()
     }
     
-    public init(title: String) {
+    var minWidth: CGFloat = 0
+    
+    public init(title: String, minWidth: CGFloat) {
         super.init(frame: CGRect.zero)
+        self.minWidth = minWidth
         setTitle(title, for: UIControl.State())
         
         setupView()
@@ -171,16 +174,16 @@ open class TagView: UIButton {
         titleLabel?.lineBreakMode = titleLineBreakMode
 
         frame.size = intrinsicContentSize
-        addSubview(removeButton)
-        removeButton.tagView = self
+//        addSubview(removeButton)
+//        removeButton.tagView = self
         
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress))
-        self.addGestureRecognizer(longPress)
+//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress))
+//        self.addGestureRecognizer(longPress)
     }
     
-    @objc func longPress() {
-        onLongPress?(self)
-    }
+//    @objc func longPress() {
+//        onLongPress?(self)
+//    }
     
     // MARK: - layout
 
@@ -188,32 +191,33 @@ open class TagView: UIButton {
         var size = titleLabel?.text?.size(withAttributes: [NSAttributedString.Key.font: textFont]) ?? CGSize.zero
         size.height = textFont.pointSize + paddingY * 2
         size.width += paddingX * 2
+        size.width = max(minWidth, size.width)
         if size.width < size.height {
             size.width = size.height
         }
-        if enableRemoveButton {
-            size.width += removeButtonIconSize + paddingX
-        }
+//        if enableRemoveButton {
+//            size.width += removeButtonIconSize + paddingX
+//        }
         return size
     }
     
     private func updateRightInsets() {
-        if enableRemoveButton {
-            titleEdgeInsets.right = paddingX  + removeButtonIconSize + paddingX
-        }
-        else {
+//        if enableRemoveButton {
+//            titleEdgeInsets.right = paddingX  + removeButtonIconSize + paddingX
+//        }
+//        else {
             titleEdgeInsets.right = paddingX
-        }
+//        }
     }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        if enableRemoveButton {
-            removeButton.frame.size.width = paddingX + removeButtonIconSize + paddingX
-            removeButton.frame.origin.x = self.frame.width - removeButton.frame.width
-            removeButton.frame.size.height = self.frame.height
-            removeButton.frame.origin.y = 0
-        }
+//        if enableRemoveButton {
+//            removeButton.frame.size.width = paddingX + removeButtonIconSize + paddingX
+//            removeButton.frame.origin.x = self.frame.width - removeButton.frame.width
+//            removeButton.frame.size.height = self.frame.height
+//            removeButton.frame.origin.y = 0
+//        }
     }
 }
 
